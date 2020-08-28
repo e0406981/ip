@@ -10,7 +10,7 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello, what can I do for you?");
 
-        /*while(true){
+        *while(true){
             String line;
             Scanner in = new Scanner(System.in);
             line = in.nextLine();
@@ -22,6 +22,6 @@ public class Duke {
                 System.out.println(line);
             }
 
-        }*/
+        }
     }
 }
