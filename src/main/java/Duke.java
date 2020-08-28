@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class Duke {
+
     public static void main(String[] args) {
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -10,6 +11,9 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello, what can I do for you?");
 
+        task tasks[] = new task[100];
+        Integer TaskNum=0;
+
         while(true){
             String line;
             Scanner in = new Scanner(System.in);
@@ -18,10 +22,18 @@ public class Duke {
             if(line.equals("bye")){
                 System.out.println("See you again :)");
                 break;
+            }else if(line.equals("list")) {
+                for(int i=0; i<TaskNum; i++){
+                    System.out.println(tasks[i].getNumber() + ". " + tasks[i].getName());
+                }
             }else{
-                System.out.println(line);
+                System.out.println("added: " + line);
+                task aTask =  new task(line, TaskNum+1, false);
+                tasks[TaskNum] = aTask;
+                TaskNum++;
+            }
             }
 
         }
     }
-}
+
