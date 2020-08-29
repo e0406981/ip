@@ -29,7 +29,11 @@ public class task {
         return number;
     }
 
-    public boolean getIsDone(){
-        return isDone;
+    public String getIsDone(){
+        if(isDone){
+            return "[✓]";
+        }else{
+            return "[✗]";
+        }
     }
 }
