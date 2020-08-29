@@ -24,6 +24,9 @@ public class Duke {
             String line;
             Scanner in = new Scanner(System.in);
             line = in.nextLine();
+            /*
+            line is what the user types in
+             */
 
             if(line.equals("bye")){
                 System.out.println("See you again :)");
