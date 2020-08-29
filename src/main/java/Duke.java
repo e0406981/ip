@@ -12,7 +12,13 @@ public class Duke {
         System.out.println("Hello, what can I do for you?");
 
         task tasks[] = new task[100];
+        /*
+            array to store the tasks
+         */
         Integer TaskNum=0;
+        /*
+            number of tasks currently in the list
+         */
 
         while(true){
             String line;
