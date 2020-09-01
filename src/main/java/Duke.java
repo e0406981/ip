@@ -17,6 +17,37 @@ public class Duke {
     function to check whether is numeric
      */
 
+    public static String checkType(String command) {
+
+        String type = "invalid command";
+
+        if (command.length() >= 10) {
+            if (command.startsWith("deadline")) {
+                type = "[D]";
+                return type;
+            }
+        }
+        if (command.length() >= 7) {
+            if (command.startsWith("event")) {
+                type = "[E]";
+                return type;
+            }
+        }
+        if (command.length() >= 6){
+            if (command.startsWith("todo")) {
+                type = "[T]";
+                return type;
+            }
+            if (command.startsWith("done") && isNumeric(command.substring(5, command.length()))){
+                type = "done command";
+            }
+        }
+
+        return type;
+    }
+    /*
+    function to check the command type
+     */
 
     public static void main(String[] args) {
         String logo = " ____        _        \n"
@@ -27,7 +58,7 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello, what can I do for you?");
 
-        task tasks[] = new task[100];
+        task[] tasks = new task[100];
         /*
             array to store the tasks
          */
@@ -41,8 +72,10 @@ public class Duke {
             Scanner in = new Scanner(System.in);
             command = in.nextLine();
             Integer length = command.length();
+            String type ="?";
             /*
             command is what the user types in
+            type is the type of task, event/to do/deadlines
              */
 
             if(command.equals("bye")){
@@ -52,12 +85,15 @@ public class Duke {
 
             else if(command.equals("list")) {
                 for(int i=0; i<NumOfTasks; i++){
-                    System.out.println(tasks[i].getNumber() + "." + tasks[i].getIsDone() + " " + tasks[i].getName());
+                    System.out.println(tasks[i].getNumber() + "." + tasks[i].getIsDone() + " " + tasks[i].getName()
+                                        + tasks[i].date());
                 }
             }
 
-            else if(length >= 6){
-                if (command.substring(0, 4).equals("done") && isNumeric(command.substring(5, length))){
+            else if(checkType(command).equals("done command")){
+                    /*
+                    check if first 4 words are done followed by a numeral
+                     */
                     Integer ToBeSet = Integer.parseInt(command.substring(5, length))-1;
                     /*
                     the task number to be set to done
@@ -72,20 +108,36 @@ public class Duke {
                     tasks[ToBeSet].setDone(true);
                     System.out.println("Nice, the following task has been marked as done :)");
                     System.out.println(tasks[ToBeSet].getIsDone() +  " " + tasks[ToBeSet].getName());
-                }else{
-                    System.out.println("added: " + command);
-                    task aTask =  new task(command, NumOfTasks+1, false);
-                    tasks[NumOfTasks] = aTask;
-                    NumOfTasks++;
-                }
             }
 
-            else
-                {
-                System.out.println("added: " + command);
-                task aTask =  new task(command, NumOfTasks+1, false);
+            else if(checkType(command).equals("[E]")) {
+                type = checkType(command);
+                task aTask =  new event(command, NumOfTasks+1, false, type);
                 tasks[NumOfTasks] = aTask;
-                    NumOfTasks++;
+                NumOfTasks++;
+                System.out.println("Got it, I've added the task:\n"
+                        + type + aTask.getIsDone()+ " " + aTask.getName() + aTask.date() + "\n"
+                        + NumOfTasks + " tasks are in the list");
+            }
+
+            else if(checkType(command).equals("[D]")) {
+                type = checkType(command);
+                task aTask =  new deadline(command, NumOfTasks+1, false, type);
+                tasks[NumOfTasks] = aTask;
+                NumOfTasks++;
+                System.out.println("Got it, I've added the task:\n"
+                        + type + aTask.getIsDone()+ " " + aTask.getName() + aTask.date() +  "\n"
+                        + NumOfTasks + " tasks are in the list");
+            }
+
+            else if(checkType(command).equals("[T]")) {
+                type = checkType(command);
+                task aTask =  new todo(command, NumOfTasks+1, false, type);
+                tasks[NumOfTasks] = aTask;
+                NumOfTasks++;
+                System.out.println("Got it, I've added the task:\n"
+                        + type + aTask.getIsDone()+ " " + aTask.getName() + aTask.date() + "\n"
+                        + NumOfTasks + " tasks are in the list");
             }
             }
 
