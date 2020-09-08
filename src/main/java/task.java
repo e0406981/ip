@@ -4,14 +4,14 @@ public class task {
     private boolean isDone;
     private String taskType;
 
-    public task(String name, Integer number, boolean isDone, String taskType){
+    public task(String name, Integer number, boolean isDone, String taskType) {
         setName(name);
         setNumber(number);
         setDone(isDone);
         setTaskType(taskType);
     }
 
-    public void setTaskType(String taskType){
+    public void setTaskType(String taskType) {
         this.taskType = taskType;
     }
 
@@ -27,23 +27,27 @@ public class task {
         this.isDone = isDone;
     }
 
-    public String getName(){
+    public String getTaskType() {
+        return taskType;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public Integer getNumber(){
+    public Integer getNumber() {
         return number;
     }
 
-    public String getIsDone(){
-        if(isDone){
+    public String getIsDone() {
+        if (isDone) {
             return "[✓]";
-        }else{
+        } else {
             return "[✗]";
         }
     }
 
-    public String date(){
+    public String date() {
         return "";
     }
 }
