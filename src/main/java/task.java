@@ -50,4 +50,10 @@ public class task {
     public String date() {
         return "";
     }
+
+    @Override
+    public String toString() {
+        return  taskType + isDone + name;
+    }
 }
+//type + aTask.getIsDone() + " " + aTask.getName() + aTask.date()

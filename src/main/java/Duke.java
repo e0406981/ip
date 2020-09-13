@@ -86,6 +86,20 @@ public class Duke {
     /*
     function to check if the command is valid
      */
+    public static task create(String type, int numOfTasks, String command, task tasks[]){
+
+        numOfTasks++;
+        task aTask;
+        if (type.equals("[E]")){
+            aTask = new event(command, numOfTasks + 1, false, type);
+        }else if(type.equals("[D]")){
+            aTask = new event(command, numOfTasks + 1, false, type);
+        }else {
+            aTask = new todo(command, numOfTasks + 1, false, type);
+        }
+        tasks[numOfTasks] = aTask;
+        return aTask;
+    }
 
 
     public static void main(String[] args) {
@@ -97,7 +111,9 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello, what can I do for you?");
 
-        task[] tasks = new task[100];
+        int MAX_TASK = 100;
+
+        task[] tasks = new task[MAX_TASK];
         /*
             array to store the tasks
          */
@@ -122,51 +138,46 @@ public class Duke {
                     break;
                 } else if (type.equals("list")) {
                     for (int i = 0; i < numOfTasks; i++) {
-                        System.out.println(tasks[i].getNumber() + "." + tasks[i].getTaskType() +
-                                tasks[i].getIsDone() + " " + tasks[i].getName() + tasks[i].date());
+                        System.out.println(tasks[i].getNumber() + "." + tasks[i]);
                     }
                 } else if (type.equals("doneCommand")) {
-                    /*
-                    check if first 4 words are done followed by a numeral
-                     */
-                    Integer ToBeSet = Integer.parseInt(command.substring(5, length)) - 1;
+                    Integer toBeSet = Integer.parseInt(command.substring(5, length)) - 1;
                     /*
                     the task number to be set to done
                      */
-                    if (ToBeSet > numOfTasks - 1) {
+                    if (toBeSet > numOfTasks - 1) {
                         System.out.println("Invalid done command, number is out of range ):");
                         continue;
                         /*
                         to catch if the user tries to enters an invalid task number
                          */
                     }
-                    tasks[ToBeSet].setDone(true);
-                    System.out.println("Nice, the following task has been marked as done :)");
-                    System.out.println(tasks[ToBeSet].getTaskType() + tasks[ToBeSet].getIsDone() +
-                            " " + tasks[ToBeSet].getName());
+                    tasks[toBeSet].setDone(true);
+                    System.out.println("Nice, the following task has been marked as done :)" + "\n" +
+                                        tasks[toBeSet]);
                 } else if (type.equals("invalidDone")) {
                     System.out.println("Please enter a number after done ):");
                 } else if (type.equals("[E]")) {
                     task aTask = new event(command, numOfTasks + 1, false, type);
                     tasks[numOfTasks] = aTask;
                     numOfTasks++;
-                    System.out.println("Got it, I've added the task:\n"
-                            + type + aTask.getIsDone() + " " + aTask.getName() + aTask.date() + "\n"
-                            + numOfTasks + " tasks are in the list");
+                    System.out.println("Got it, I've added the task:" + "\n" +
+                                        aTask + "\n" +
+                                        numOfTasks+ " tasks are in the list" );
                 } else if (type.equals("[D]")) {
                     task aTask = new deadline(command, numOfTasks + 1, false, type);
                     tasks[numOfTasks] = aTask;
                     numOfTasks++;
-                    System.out.println("Got it, I've added the task:\n"
-                            + type + aTask.getIsDone() + " " + aTask.getName() + aTask.date() + "\n"
-                            + numOfTasks + " tasks are in the list");
+                    System.out.println("Got it, I've added the task:" + "\n" +
+                            aTask + "\n" +
+                            numOfTasks+ " tasks are in the list" );
                 } else if (type.equals("[T]")) {
                     task aTask = new todo(command, numOfTasks + 1, false, type);
                     tasks[numOfTasks] = aTask;
                     numOfTasks++;
-                    System.out.println("Got it, I've added the task:\n"
-                            + type + aTask.getIsDone() + " " + aTask.getName() + aTask.date() + "\n"
-                            + numOfTasks + " tasks are in the list");
+                    System.out.println("Got it, I've added the task:" + "\n" +
+                            aTask + "\n" +
+                            numOfTasks+ " tasks are in the list" );
                 } else if (type.equals("noNameEvent")) {
                     System.out.println("The event has no name!");
                 } else if (type.equals("noDateEvent")) {

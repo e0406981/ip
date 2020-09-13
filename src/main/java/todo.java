@@ -7,4 +7,9 @@ public class todo extends task {
     public String getName() {
         return name.substring(5);
     }
+
+    @Override
+    public String toString() {
+        return  getTaskType() + getIsDone() + getName();
+    }
 }
