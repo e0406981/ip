@@ -4,11 +4,11 @@ public class event extends task {
 
     public event(String name, Integer number, boolean isDone, String taskType){
         super(name,number,isDone,taskType);
-        this.date = "(at: " + name.substring(name.indexOf('/')+4) + ")";
+        this.date = name.substring(name.indexOf('/'));
     }
     @Override
     public String date(){
-        return "(at: " + name.substring(name.indexOf('/')+4) + ")";
+        return name.substring(name.indexOf('/'));
     }
     @Override
     public String getName(){
@@ -17,7 +17,7 @@ public class event extends task {
 
     @Override
     public String toString() {
-        return  getTaskType() + getIsDone() + getName() + date;
+        return  getTaskType() + getIsDone() + getName() + " " + date;
     }
 }
 
