@@ -27,10 +27,10 @@ public class Duke {
             if (command.equals("deadline")) {
                 throw new DukeException("Deadline is empty!");
             }
-            if (!command.contains("/by")) {//if there is no '/by'
+            if (!command.contains("/")) {//if there is no '/by'
                 throw new DukeException("Deadline has no date!");
             }
-            if (command.indexOf("/by") == 9) {
+            if (command.indexOf("/") == 9) {
                 throw new DukeException("Deadline has no description!");
             }
         }
@@ -40,10 +40,10 @@ public class Duke {
             if (command.equals("event")) {
                 throw new DukeException("Event is empty!");
             }
-            if (!command.contains("/at")) {//if there is no '/at'
+            if (!command.contains("/")) {//if there is no '/at'
                 throw new DukeException("Event has no date!");
             }
-            if (command.indexOf("/at") == 6) {
+            if (command.indexOf("/") == 6) {
                 throw new DukeException("Event has no description!");
             }
             return type;
@@ -61,20 +61,21 @@ public class Duke {
         try {
             if (command.startsWith("done")) {
                 if (isNumeric(command.substring(5)))
-                    type = "doneCommand";
+                    type = "done";
             }
         } catch (StringIndexOutOfBoundsException e) {
             type = "invalidDone";
+            throw new DukeException("Please enter a number after done!");
         }
 
-        if (command.equals("list")){
+        if (command.equals("list")) {
             return "list";
         }
-        if (command.equals("bye")){
+        if (command.equals("bye")) {
             return "bye";
         }
         if (type.equals("invalid")) {
-            throw new DukeException("Much like most university students, i do not understand ):");
+            throw new DukeException("I do not understand, please enter a valid command!");
         }
 
         return type;
@@ -86,18 +87,20 @@ public class Duke {
     /*
     function to check if the command is valid
      */
-    public static task create(String type, int numOfTasks, String command, task tasks[]){
+    public static task createTask(String type, int numOfTasks, String command) {
 
         numOfTasks++;
         task aTask;
-        if (type.equals("[E]")){
-            aTask = new event(command, numOfTasks + 1, false, type);
-        }else if(type.equals("[D]")){
-            aTask = new event(command, numOfTasks + 1, false, type);
-        }else {
-            aTask = new todo(command, numOfTasks + 1, false, type);
+        if (type.equals("[E]")) {
+            aTask = new event(command, numOfTasks, false, type);
+        } else if (type.equals("[D]")) {
+            aTask = new event(command, numOfTasks, false, type);
+        } else {
+            aTask = new todo(command, numOfTasks, false, type);
         }
-        tasks[numOfTasks] = aTask;
+        System.out.println("Got it, I've added the task:" + "\n" +
+                aTask + "\n" +
+                numOfTasks + " tasks are in the list");
         return aTask;
     }
 
@@ -112,7 +115,6 @@ public class Duke {
         System.out.println("Hello, what can I do for you?");
 
         int MAX_TASK = 100;
-
         task[] tasks = new task[MAX_TASK];
         /*
             array to store the tasks
@@ -130,7 +132,6 @@ public class Duke {
                 Integer length = command.length();
                 String type = checkType(command);
             /*
-            command is what the user types in
             type is the type of task, event/to do/deadlines
              */
                 if (type.equals("bye")) {
@@ -140,7 +141,7 @@ public class Duke {
                     for (int i = 0; i < numOfTasks; i++) {
                         System.out.println(tasks[i].getNumber() + "." + tasks[i]);
                     }
-                } else if (type.equals("doneCommand")) {
+                } else if (type.equals("done")) {
                     Integer toBeSet = Integer.parseInt(command.substring(5, length)) - 1;
                     /*
                     the task number to be set to done
@@ -154,34 +155,11 @@ public class Duke {
                     }
                     tasks[toBeSet].setDone(true);
                     System.out.println("Nice, the following task has been marked as done :)" + "\n" +
-                                        tasks[toBeSet]);
-                } else if (type.equals("invalidDone")) {
-                    System.out.println("Please enter a number after done ):");
-                } else if (type.equals("[E]")) {
-                    task aTask = new event(command, numOfTasks + 1, false, type);
-                    tasks[numOfTasks] = aTask;
+                            tasks[toBeSet]);
+                } else if (type.equals("[E]") || type.equals("[T]") || type.equals("[D]")) {
+                    tasks[numOfTasks] = createTask(type,numOfTasks,command);
                     numOfTasks++;
-                    System.out.println("Got it, I've added the task:" + "\n" +
-                                        aTask + "\n" +
-                                        numOfTasks+ " tasks are in the list" );
-                } else if (type.equals("[D]")) {
-                    task aTask = new deadline(command, numOfTasks + 1, false, type);
-                    tasks[numOfTasks] = aTask;
-                    numOfTasks++;
-                    System.out.println("Got it, I've added the task:" + "\n" +
-                            aTask + "\n" +
-                            numOfTasks+ " tasks are in the list" );
-                } else if (type.equals("[T]")) {
-                    task aTask = new todo(command, numOfTasks + 1, false, type);
-                    tasks[numOfTasks] = aTask;
-                    numOfTasks++;
-                    System.out.println("Got it, I've added the task:" + "\n" +
-                            aTask + "\n" +
-                            numOfTasks+ " tasks are in the list" );
-                } else if (type.equals("noNameEvent")) {
-                    System.out.println("The event has no name!");
-                } else if (type.equals("noDateEvent")) {
-                    System.out.println("The event has no date!");
+
                 }
             } catch (DukeException e) {
                 System.out.println(e.getMessage());
