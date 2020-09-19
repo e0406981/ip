@@ -3,7 +3,7 @@ public class event extends task {
     private String date;
 
     public event(String name, Integer number, boolean isDone, String taskType){
-        super(name,number,isDone,taskType);
+        super(name, number, isDone, taskType);
         this.date = name.substring(name.indexOf('/'));
     }
     @Override
@@ -12,7 +12,7 @@ public class event extends task {
     }
     @Override
     public String getName(){
-        return name.substring(6, name.indexOf('/'));
+        return name.substring(name.indexOf(' ')+1, name.indexOf('/'));
     }
 
     @Override

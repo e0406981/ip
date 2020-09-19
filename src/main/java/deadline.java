@@ -4,7 +4,7 @@ public class deadline extends task {
 
     public deadline(String name, Integer number, boolean isDone, String taskType) {
         super(name, number, isDone, taskType);
-        this.date = name.substring(name.indexOf('/')+1);
+        this.date = name.substring(name.indexOf('/'));
     }
 
     @Override
@@ -14,7 +14,7 @@ public class deadline extends task {
 
     @Override
     public String getName() {
-        return name.substring(9, name.indexOf('/'));
+        return name.substring(name.indexOf(' ')+1, name.indexOf('/'));
     }
 
     @Override

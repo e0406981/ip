@@ -56,4 +56,3 @@ public class task {
         return  taskType + isDone + name;
     }
 }
-//type + aTask.getIsDone() + " " + aTask.getName() + aTask.date()

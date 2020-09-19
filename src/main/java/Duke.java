@@ -2,25 +2,25 @@ import java.util.Scanner;
 
 public class Duke {
 
-    public static boolean isNumeric(String command) {
+    //function to check whether is numeric
+    public static boolean isNumeric(String command) throws DukeException {
         if (command == null) {
             return false;
         }
         try {
             double d = Double.parseDouble(command);
         } catch (NumberFormatException nfe) {
-            return false;
+            throw new DukeException("Please enter a number after done!");
         }
         return true;
     }
-    /*
-    function to check whether is numeric
-     */
 
+    /*
+    function to check the command type & validity
+    */
     public static String checkType(String command) throws DukeException {
 
         String type = "invalid";
-
 
         if (command.startsWith("deadline")) {
             type = "[D]";
@@ -30,7 +30,8 @@ public class Duke {
             if (!command.contains("/")) {//if there is no '/by'
                 throw new DukeException("Deadline has no date!");
             }
-            if (command.indexOf("/") == 9) {
+            String name = command.substring(command.indexOf(' ') + 1, command.indexOf('/'));
+            if (name.isBlank() || name.isEmpty()) {
                 throw new DukeException("Deadline has no description!");
             }
         }
@@ -40,10 +41,11 @@ public class Duke {
             if (command.equals("event")) {
                 throw new DukeException("Event is empty!");
             }
-            if (!command.contains("/")) {//if there is no '/at'
-                throw new DukeException("Event has no date!");
+            if (!command.contains("/")) {
+                throw new DukeException("Event has no date! Please enter date after a '/' ");
             }
-            if (command.indexOf("/") == 6) {
+            String name = command.substring(command.indexOf(' ') + 1, command.indexOf('/'));
+            if (name.isBlank() || name.isEmpty()) {
                 throw new DukeException("Event has no description!");
             }
             return type;
@@ -58,14 +60,9 @@ public class Duke {
             return type;
         }
 
-        try {
-            if (command.startsWith("done")) {
-                if (isNumeric(command.substring(5)))
-                    type = "done";
-            }
-        } catch (StringIndexOutOfBoundsException e) {
-            type = "invalidDone";
-            throw new DukeException("Please enter a number after done!");
+        if (command.startsWith("done")) {
+            if (isNumeric(command.substring(command.indexOf(" ") + 1)))
+                type = "done";
         }
 
         if (command.equals("list")) {
@@ -80,28 +77,22 @@ public class Duke {
 
         return type;
     }
-    /*
-    function to check the command type
-     */
 
-    /*
-    function to check if the command is valid
-     */
     public static task createTask(String type, int numOfTasks, String command) {
 
         numOfTasks++;
-        task aTask;
+        task NewTask;
         if (type.equals("[E]")) {
-            aTask = new event(command, numOfTasks, false, type);
+            NewTask = new event(command, numOfTasks, false, type);
         } else if (type.equals("[D]")) {
-            aTask = new event(command, numOfTasks, false, type);
+            NewTask = new deadline(command, numOfTasks, false, type);
         } else {
-            aTask = new todo(command, numOfTasks, false, type);
+            NewTask = new todo(command, numOfTasks, false, type);
         }
         System.out.println("Got it, I've added the task:" + "\n" +
-                aTask + "\n" +
+                NewTask + "\n" +
                 numOfTasks + " tasks are in the list");
-        return aTask;
+        return NewTask;
     }
 
 
@@ -116,19 +107,13 @@ public class Duke {
 
         int MAX_TASK = 100;
         task[] tasks = new task[MAX_TASK];
-        /*
-            array to store the tasks
-         */
         Integer numOfTasks = 0;
-        /*
-            number of tasks currently in the list
-         */
 
         while (true) {
             try {
                 String command;
-                Scanner in = new Scanner(System.in);
-                command = in.nextLine();
+                Scanner scanner = new Scanner(System.in);
+                command = scanner.nextLine();
                 Integer length = command.length();
                 String type = checkType(command);
             /*
@@ -142,22 +127,22 @@ public class Duke {
                         System.out.println(tasks[i].getNumber() + "." + tasks[i]);
                     }
                 } else if (type.equals("done")) {
-                    Integer toBeSet = Integer.parseInt(command.substring(5, length)) - 1;
+                    Integer taskNum = Integer.parseInt(command.substring(5, length)) - 1;
                     /*
                     the task number to be set to done
                      */
-                    if (toBeSet > numOfTasks - 1) {
+                    if (taskNum > numOfTasks - 1 || taskNum < 0) {
                         System.out.println("Invalid done command, number is out of range ):");
                         continue;
                         /*
                         to catch if the user tries to enters an invalid task number
                          */
                     }
-                    tasks[toBeSet].setDone(true);
+                    tasks[taskNum].setDone(true);
                     System.out.println("Nice, the following task has been marked as done :)" + "\n" +
-                            tasks[toBeSet]);
+                            tasks[taskNum]);
                 } else if (type.equals("[E]") || type.equals("[T]") || type.equals("[D]")) {
-                    tasks[numOfTasks] = createTask(type,numOfTasks,command);
+                    tasks[numOfTasks] = createTask(type, numOfTasks, command);
                     numOfTasks++;
 
                 }
