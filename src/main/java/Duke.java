@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Duke {
@@ -13,7 +12,7 @@ public class Duke {
         try {
             double d = Double.parseDouble(command);
         } catch (NumberFormatException nfe) {
-            throw new DukeException("Please enter a number after done!");
+            throw new DukeException("The number cannot be empty!");
         }
         return true;
     }
@@ -77,6 +76,10 @@ public class Duke {
         if (command.equals("save")) {
             return "save";
         }
+        if (command.startsWith("delete")){
+            if (isNumeric(command.substring(command.indexOf(" ") + 1)))
+                type = "delete";
+        }
         if (type.equals("invalid")) {
             throw new DukeException("I do not understand, please enter a valid command!");
         }
@@ -127,14 +130,15 @@ public class Duke {
         return NewTask;
     }
 
-    public static void saveFile(String filePath, ArrayList<task> tasks, int numOfTasks) throws IOException {
+    public static void saveFile(String filePath, ArrayList<task> tasks) throws IOException {
         FileWriter fw = new FileWriter(filePath);
-        for (int i = 0; i < numOfTasks; i++) {
+        for (int i = 0; i < tasks.size(); i++) {
             fw.write(i + 1 + tasks.get(i).getTaskType()
                     + tasks.get(i).getIsDone() + tasks.get(i).getName() + tasks.get(i).date() +
                     System.lineSeparator());
         }
         fw.close();
+        System.out.println("File has been saved!");
     }
 
     private static int readFile(String file, ArrayList<task> tasks) {
@@ -143,7 +147,6 @@ public class Duke {
             tasks.clear();
             BufferedReader in = new BufferedReader(new FileReader(file));
             String line;
-            boolean isDone = false;
 
             while ((line = in.readLine()) != null) {
                 String type = line.substring(line.indexOf("["), line.indexOf("]") + 1);
@@ -156,6 +159,15 @@ public class Duke {
             e.printStackTrace();
         }
         return number;
+    }
+
+    private static void delete(ArrayList<task> tasks, String command){
+        int taskNum = Integer.parseInt(command.substring(command.indexOf(" ")+1));
+        tasks.remove(taskNum-1);
+        System.out.println("Task number " + taskNum + " has been deleted!");
+        for(int i=0; i<tasks.size(); i++){
+            tasks.get(i).setNumber(i+1);
+        }
     }
 
     public static void main(String[] args) {
@@ -178,7 +190,7 @@ public class Duke {
                 String command;
                 Scanner scanner = new Scanner(System.in);
                 command = scanner.nextLine();
-                Integer length = command.length();
+                int length = command.length();
                 String type = checkType(command);
             /*
             type is the type of task, event/to do/deadlines
@@ -188,12 +200,16 @@ public class Duke {
                         System.out.println("See you again :)");
                         break label;
                     case "list":
-                        for (int i = 0; i < tasks.toArray().length; i++) {
-                            System.out.println(tasks.get(i));
+                        if(tasks.size() == 0){
+                            System.out.println("List is empty!");
+                        }else {
+                            for (int i = 0; i < tasks.toArray().length; i++) {
+                                System.out.println(tasks.get(i));
+                            }
                         }
                         break;
                     case "done":
-                        Integer taskNum = Integer.parseInt(command.substring(5, length)) - 1;
+                        int taskNum = Integer.parseInt(command.substring(command.indexOf(" ")+1, length)) - 1;
                     /*
                     the task number to be set to done
                      */
@@ -216,8 +232,18 @@ public class Duke {
 
                         break;
                     case "save":
-                        saveFile(file, tasks, numOfTasks);
+                        saveFile(file, tasks);
                         break;
+                    case "delete":
+                        taskNum = Integer.parseInt(command.substring(command.indexOf(" ")+1, length)) - 1;
+                        if (taskNum > numOfTasks - 1 || taskNum < 0) {
+                            System.out.println("Invalid delete command, number is out of range ):");
+                            continue;
+                        /*
+                        to catch if the user tries to enters an invalid task number
+                         */
+                        }
+                        delete(tasks, command);
                 }
             } catch (DukeException | IOException e) {
                 System.out.println(e.getMessage());
