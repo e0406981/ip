@@ -10,6 +10,6 @@ public class todo extends task {
 
     @Override
     public String toString() {
-        return  getTaskType() + getIsDone() + getName();
+        return  getNumber() + getTaskType() + getIsDone() + " " + getName();
     }
 }

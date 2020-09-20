@@ -19,6 +19,6 @@ public class deadline extends task {
 
     @Override
     public String toString() {
-        return  getTaskType() + getIsDone() + getName() + " " + date;
+        return  getNumber() + getTaskType() + getIsDone() + " " + getName() + " " + date;
     }
 }
