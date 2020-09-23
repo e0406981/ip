@@ -1,10 +1,14 @@
 public class event extends task {
 
-    private String date;
+    private final String date;
 
-    public event(String name, Integer number, boolean isDone, String taskType){
-        super(name, number, isDone, taskType);
+    public event(String name, Integer number, boolean isDone){
+        super(name, number, isDone);
         this.date = name.substring(name.indexOf('/'));
+    }
+    @Override
+    public String getTaskType(){
+        return "[E]";
     }
     @Override
     public String date(){

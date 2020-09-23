@@ -2,11 +2,14 @@ public class deadline extends task {
 
     protected String date;
 
-    public deadline(String name, Integer number, boolean isDone, String taskType) {
-        super(name, number, isDone, taskType);
+    public deadline(String name, Integer number, boolean isDone) {
+        super(name, number, isDone);
         this.date = name.substring(name.indexOf('/'));
     }
-
+    @Override
+    public String getTaskType(){
+        return "[D]";
+    }
     @Override
     public String date() {
         return name.substring(name.indexOf('/'));

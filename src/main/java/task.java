@@ -2,17 +2,11 @@ public class task {
     protected String name;
     private Integer number;
     private boolean isDone;
-    private String taskType;
 
-    public task(String name, Integer number, boolean isDone, String taskType) {
+    public task(String name, Integer number, boolean isDone) {
         setName(name);
         setNumber(number);
         setDone(isDone);
-        setTaskType(taskType);
-    }
-
-    public void setTaskType(String taskType) {
-        this.taskType = taskType;
     }
 
     public void setName(String name) {
@@ -25,10 +19,6 @@ public class task {
 
     public void setDone(boolean isDone) {
         this.isDone = isDone;
-    }
-
-    public String getTaskType() {
-        return taskType;
     }
 
     public String getName() {
@@ -47,12 +37,16 @@ public class task {
         }
     }
 
+    public String getTaskType(){
+        return "";
+    }
+
     public String date() {
         return "";
     }
 
     @Override
     public String toString() {
-        return  taskType + isDone + name;
+        return isDone + name;
     }
 }

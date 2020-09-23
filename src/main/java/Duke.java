@@ -10,9 +10,9 @@ public class Duke {
             return false;
         }
         try {
-            double d = Double.parseDouble(command);
+            Double.parseDouble(command);
         } catch (NumberFormatException nfe) {
-            throw new DukeException("The number cannot be empty!");
+            throw new DukeException("Please enter a valid number after the command");
         }
         return true;
     }
@@ -23,30 +23,32 @@ public class Duke {
     public static String checkType(String command) throws DukeException {
 
         String type = "invalid";
+        String name = "";
+        if(command.contains("/")){
+            name = command.substring(command.indexOf(' ') + 1, command.indexOf('/'));
+        }
 
         if (command.startsWith("deadline")) {
-            type = "[D]";
+            type = "deadline";
             if (command.equals("deadline")) {
                 throw new DukeException("Deadline is empty!");
             }
             if (!command.contains("/")) {//if there is no '/by'
                 throw new DukeException("Deadline has no date!");
             }
-            String name = command.substring(command.indexOf(' ') + 1, command.indexOf('/'));
             if (name.isBlank() || name.isEmpty()) {
                 throw new DukeException("Deadline has no description!");
             }
         }
 
         if (command.startsWith("event")) {
-            type = "[E]";
+            type = "event";
             if (command.equals("event")) {
                 throw new DukeException("Event is empty!");
             }
             if (!command.contains("/")) {
                 throw new DukeException("Event has no date! Please enter date after a '/' ");
             }
-            String name = command.substring(command.indexOf(' ') + 1, command.indexOf('/'));
             if (name.isBlank() || name.isEmpty()) {
                 throw new DukeException("Event has no description!");
             }
@@ -55,7 +57,7 @@ public class Duke {
 
 
         if (command.startsWith("todo")) {
-            type = "[T]";
+            type = "todo";
             if (command.equals("todo")) {
                 throw new DukeException("Todo is empty!");
             }
@@ -76,12 +78,16 @@ public class Duke {
         if (command.equals("save")) {
             return "save";
         }
+        if (command.equals("help")){
+            return "help";
+        }
         if (command.startsWith("delete")){
             if (isNumeric(command.substring(command.indexOf(" ") + 1)))
                 type = "delete";
         }
         if (type.equals("invalid")) {
-            throw new DukeException("I do not understand, please enter a valid command!");
+            throw new DukeException("I do not understand, please enter a valid command! " +
+                    "Enter 'help' for a list of commands!" );
         }
 
 
@@ -92,12 +98,12 @@ public class Duke {
 
         numOfTasks++;
         task NewTask;
-        if (type.equals("[E]")) {
-            NewTask = new event(command, numOfTasks, false, type);
-        } else if (type.equals("[D]")) {
-            NewTask = new deadline(command, numOfTasks, false, type);
+        if (type.equals("event")) {
+            NewTask = new event(command, numOfTasks, false);
+        } else if (type.equals("deadline")) {
+            NewTask = new deadline(command, numOfTasks, false);
         } else {
-            NewTask = new todo(command, numOfTasks, false, type);
+            NewTask = new todo(command, numOfTasks, false);
         }
         System.out.println("Got it, I've added the task:" + "\n" +
                 NewTask + "\n" +
@@ -119,13 +125,13 @@ public class Duke {
         }
         if (type.equals("[E]")) {
             line = "event" + " " + line.substring(nameStart, nameEnd) + line.substring(nameEnd);
-            NewTask = new event(line, numOfTasks, isDone, type);
+            NewTask = new event(line, numOfTasks, isDone);
         } else if (type.equals("[D]")) {
             line = "deadline" + " " + line.substring(nameStart, nameEnd) + line.substring(nameEnd);
-            NewTask = new deadline(line, numOfTasks, isDone, type);
+            NewTask = new deadline(line, numOfTasks, isDone);
         } else {
             line = "todo" + " " + line.substring(nameStart);
-            NewTask = new todo(line, numOfTasks, isDone, type);
+            NewTask = new todo(line, numOfTasks, isDone);
         }
         return NewTask;
     }
@@ -168,7 +174,7 @@ public class Duke {
         for(int i=0; i<tasks.size(); i++){
             tasks.get(i).setNumber(i+1);
         }
-    }
+     }
 
     public static void main(String[] args) {
         String logo = " ____        _        \n"
@@ -208,6 +214,17 @@ public class Duke {
                             }
                         }
                         break;
+                    case "help":
+                        System.out.println("Commands are \n" +
+                                "list : shows current tasks\n" +
+                                "bye : exits the program\n" +
+                                "done number : e.g done 2, sets the task at the number to done \n" +
+                                "event name/date : e.g event Birthday /tomorrow \n" +
+                                "todo name : e.g todo Homework\n" +
+                                "deadline name/date : e.g deadline Project /next Sunday\n" +
+                                "delete number : e.g delete 2, deletes a task\n" +
+                                "save number : e.g save 2, saves the current list");
+                        break;
                     case "done":
                         int taskNum = Integer.parseInt(command.substring(command.indexOf(" ")+1, length)) - 1;
                     /*
@@ -224,9 +241,9 @@ public class Duke {
                         System.out.println("Nice, the following task has been marked as done :)" + "\n" +
                                 tasks.get(taskNum));
                         break;
-                    case "[E]":
-                    case "[T]":
-                    case "[D]":
+                    case "event":
+                    case "todo":
+                    case "deadline":
                         tasks.add(createTask(type, numOfTasks, command));
                         numOfTasks++;
 
@@ -244,6 +261,7 @@ public class Duke {
                          */
                         }
                         delete(tasks, command);
+                        numOfTasks--;
                 }
             } catch (DukeException | IOException e) {
                 System.out.println(e.getMessage());
