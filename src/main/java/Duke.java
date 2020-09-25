@@ -1,10 +1,9 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Duke {
 
-    private Parser parser;
+    private final Parser parser;
     private final Storage storage;
     private final TaskManager tasks;
     private final Ui ui;

@@ -1,19 +1,16 @@
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.Scanner;
 
 public class Ui {
 
     private final Scanner in;
-    private final PrintStream out;
 
     public Ui(){
-        this(System.in, System.out);
+        this(System.in);
     }
 
-    public Ui(InputStream in, PrintStream out){
+    public Ui(InputStream in){
         this.in = new Scanner(in);
-        this.out = out;
     }
 
     public void showWelcome(){
@@ -28,10 +25,6 @@ public class Ui {
 
     public String readInput(){
         return in.nextLine();
-    }
-
-    public void showLoadingError(){
-        System.out.println("There was a problem in loading the file!");
     }
 
     public void showLine(){

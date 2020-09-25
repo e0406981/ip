@@ -1,7 +1,3 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class TaskManager {
@@ -42,7 +38,9 @@ public class TaskManager {
 
         if (taskNum > tasks.size() - 1 || taskNum < 0) {//if invalid number
             System.out.println("Invalid done input, number is out of range ):");
-        } else {
+        }else if(tasks.get(taskNum).getIsDone().equals("[✓]")){
+            System.out.println(("Task is already set to done!"));
+        }else{
             tasks.get(taskNum).setDone(true);
             System.out.println("Nice, the following task has been marked as done :)" + "\n" +
                     tasks.get(taskNum));
