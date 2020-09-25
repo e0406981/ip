@@ -2,9 +2,9 @@ public class deadline extends task {
 
     protected String date;
 
-    public deadline(String name, Integer number, boolean isDone) {
-        super(name, number, isDone);
-        this.date = name.substring(name.indexOf('/'));
+    public deadline(String name ,boolean isDone, String date) {
+        super(name, isDone);
+        this.date = date;
     }
     @Override
     public String getTaskType(){
@@ -12,16 +12,16 @@ public class deadline extends task {
     }
     @Override
     public String date() {
-        return name.substring(name.indexOf('/'));
+        return date;
     }
 
     @Override
     public String getName() {
-        return name.substring(name.indexOf(' ')+1, name.indexOf('/'));
+        return name;
     }
 
     @Override
     public String toString() {
-        return  getNumber() + getTaskType() + getIsDone() + " " + getName() + " " + date;
+        return  getTaskType() + getIsDone() + " " + getName() + " " + date;
     }
 }

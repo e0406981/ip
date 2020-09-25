@@ -1,11 +1,12 @@
 public class todo extends task {
-    public todo(String name, Integer number, boolean isDone) {
-        super(name, number, isDone);
+
+    public todo(String name, boolean isDone) {
+        super(name, isDone);
     }
 
     @Override
     public String getName() {
-        return name.substring(5);
+        return name;
     }
     @Override
     public String getTaskType(){
@@ -14,6 +15,6 @@ public class todo extends task {
 
     @Override
     public String toString() {
-        return  getNumber() + getTaskType() + getIsDone() + " " + getName();
+        return  getTaskType() + getIsDone() + " " + getName();
     }
 }
