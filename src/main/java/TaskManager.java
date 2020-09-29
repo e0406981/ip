@@ -37,7 +37,7 @@ public class TaskManager {
                 "deadline name/date : e.g deadline Project /next Sunday\n" +
                 "delete number : e.g delete 2, deletes a task\n" +
                 "find description : e.g find birthday, checks task's names for description\n"+
-                "save number : e.g save 2, saves the current list");
+                "save: e.g save, saves the current list");
     }
 
     /**
