@@ -110,7 +110,7 @@ public class TaskManager {
                 tasksFound.add(task);
             }
         }
-        System.out.println(tasksFound.size() + " tasks were found:");
+        System.out.println(tasksFound.size() + " tasks found:");
         for (int i=0; i<tasksFound.size(); i++){
             System.out.println( String.valueOf(i+1) + tasksFound.get(i));
         }

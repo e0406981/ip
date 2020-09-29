@@ -7,10 +7,12 @@ public class Duke {
     private final Storage storage;
     private final TaskManager tasks;
     private final Ui ui;
+    private static final String FILE_LOCATION = "./data/";
+    private static final String FILE_NAME = "duke.txt";
 
     public Duke() {
         parser = new Parser();
-        storage = new Storage(parser);
+        storage = new Storage(parser, FILE_LOCATION, FILE_NAME);
         ArrayList<task> data = storage.readFile();
         tasks = new TaskManager(data);
         ui = new Ui();
