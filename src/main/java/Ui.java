@@ -1,6 +1,9 @@
 import java.io.InputStream;
 import java.util.Scanner;
 
+/**
+ * handles UI,and what is shown to the user
+ */
 public class Ui {
 
     private final Scanner in;
@@ -13,6 +16,9 @@ public class Ui {
         this.in = new Scanner(in);
     }
 
+    /**
+     * prints welcome message
+     */
     public void showWelcome(){
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -23,10 +29,17 @@ public class Ui {
         System.out.println("Hello, what can I do for you?");
     }
 
+    /**
+     * returns user input
+     * @return user input
+     */
     public String readInput(){
         return in.nextLine();
     }
 
+    /**
+     * prints line
+     */
     public void showLine(){
         System.out.println("-----------------------------------------------------");
     }

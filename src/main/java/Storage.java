@@ -4,6 +4,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * handles writing/saving file
+ */
 public class Storage {
 
     private final Parser parser;
@@ -12,6 +15,11 @@ public class Storage {
         this.parser = parser;
     }
 
+    /**
+     * saves the file
+     * @param tasks tasks to be saved
+     * @throws IOException in case of saving error
+     */
     public void saveFile(ArrayList<task> tasks) throws IOException {
         String filePath = "data/saveData.txt";
         FileWriter fw = new FileWriter(filePath);
@@ -24,6 +32,10 @@ public class Storage {
         System.out.println("File has been saved!");
     }
 
+    /**
+     * read a text file to return it in ArrayList form
+     * @return ArrayList of tasks
+     */
     public ArrayList<task> readFile() {
 
         ArrayList<task> tasks = new ArrayList<>();
@@ -46,7 +58,12 @@ public class Storage {
 
     }
 
-    public task loadTask(String line) {
+    /**
+     * load a task from a SINGLE line in the text file
+     * @param line a SINGLE line in the text file
+     * @return the task.
+     */
+    private task loadTask(String line) {
         task NewTask;
         String name = parser.parseNameFromSave(line);
         String date = parser.parseDateFromSave(line);

@@ -1,5 +1,8 @@
 import java.io.IOException;
 
+/**
+ * parses the command to check what it means
+ */
 public class Parser {
 
     private static final int EVENT_END_INDEX = 5;
@@ -9,6 +12,14 @@ public class Parser {
     private static final int DELETE_END_INDEX = 6;
     private static final int FIND_END_INDEX = 4;
 
+    /**
+     * check what the command means and then sends it to TaskManager to execute
+     * @param command the input from the user
+     * @param tasks ArrayList of tasks currently being stored
+     * @param storage the storage for the save file
+     * @throws DukeException handles errors that the user might input
+     * @throws IOException handles when reading/writing file fails
+     */
     public void checkType(String command, TaskManager tasks, Storage storage) throws DukeException, IOException {
 
         String type;
@@ -98,8 +109,12 @@ public class Parser {
 
     }
 
-    //parses the name of the task for commands that create tasks
-    public String parseNameFromInput(String command) {
+    /**
+     * gets the name of task from input command
+     * @param command user input
+     * @return the name/description of the task is returned
+     */
+    private String parseNameFromInput(String command) {
         if (command.startsWith("todo") || command.startsWith("find")) {
             return command.substring(command.indexOf(" ") + 1);
         } else {
@@ -107,7 +122,12 @@ public class Parser {
         }
     }
 
-    public String parseDateFromInput(String command) {
+    /**
+     * gets the date of task from input command
+     * @param command user input
+     * @return the date of the task is returned
+     */
+    private String parseDateFromInput(String command) {
         if (command.contains("/")) {
             return command.substring(command.indexOf('/'));
         } else {
@@ -115,6 +135,11 @@ public class Parser {
         }
     }
 
+    /**
+     * gets the name of task from save input line
+     * @param line the line in the save file
+     * @return the name/description of the task is returned
+     */
     public String parseNameFromSave(String line) {
         int nameEnd = 0;
         int nameStart = line.indexOf("]", line.indexOf("]") + 1) + 1;
@@ -129,6 +154,11 @@ public class Parser {
         }
     }
 
+    /**
+     * gets the type of the task from save input line
+     * @param line the line in the save file
+     * @return the task type is returned
+     */
     public String parseTypeFromSave(String line) {
         return line.substring(line.indexOf("["), line.indexOf("]") + 1);
     }
@@ -141,15 +171,31 @@ public class Parser {
         }
     }
 
+    /**
+     * gets whether the task is done from save input line
+     * @param line user input
+     * @return true or false, if the task is done
+     */
     public boolean parseDoneFromSave(String line) {
         return line.contains("[✓]");
     }
 
-    public int parseNumeral(String command) {
+    /**
+     * gets the number at the end of a command
+     * @param command user input
+     * @return integer at the end of command is returned
+     */
+    private int parseNumeral(String command) {
         return Integer.parseInt(command.substring(command.indexOf(" ") + 1))-1;
     }
 
-    public static boolean isNumeric(String command) throws DukeException {
+    /**
+     * checks whether a string is numeric
+     * @param command user input
+     * @return true or false, whether input is numerical
+     * @throws DukeException if the input is not numeric, throws duke exception
+     */
+    private static boolean isNumeric(String command) throws DukeException {
         if (command == null) {
             return false;
         }
