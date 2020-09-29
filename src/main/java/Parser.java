@@ -7,6 +7,7 @@ public class Parser {
     private static final int TODO_END_INDEX = 4;
     private static final int DONE_END_INDEX = 4;
     private static final int DELETE_END_INDEX = 6;
+    private static final int FIND_END_INDEX = 4;
 
     public void checkType(String command, TaskManager tasks, Storage storage) throws DukeException, IOException {
 
@@ -84,7 +85,13 @@ public class Parser {
             }
             if (isNumeric(command.substring(command.indexOf(" ") + 1)))
                 tasks.deleteTask(parseNumeral(command));
-        } else {
+        } else if(command.startsWith("find")){
+            if(command.indexOf(" ")!= FIND_END_INDEX){
+                throw new DukeException("You might need to leave a space between the command and description");
+            }
+            name = parseNameFromInput(command);
+            tasks.findTask(name);
+        }else{
             throw new DukeException("I do not understand, please enter a valid command! " +
                     "Enter 'help' for a list of commands!");
         }
@@ -93,7 +100,7 @@ public class Parser {
 
     //parses the name of the task for commands that create tasks
     public String parseNameFromInput(String command) {
-        if (command.startsWith("todo")) {
+        if (command.startsWith("todo") || command.startsWith("find")) {
             return command.substring(command.indexOf(" ") + 1);
         } else {
             return command.substring(command.indexOf(' ') + 1, command.indexOf('/'));

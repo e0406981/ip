@@ -71,6 +71,19 @@ public class TaskManager {
         tasks.add(NewTask);
     }
 
+    public void findTask(String name){
+        ArrayList<task> tasksFound = new ArrayList<>();
+        for (task task : tasks) {
+            if (task.getName().contains(name)) {
+                tasksFound.add(task);
+            }
+        }
+        System.out.println(tasksFound.size() + " tasks were found:");
+        for (int i=0; i<tasksFound.size(); i++){
+            System.out.println( String.valueOf(i+1) + tasksFound.get(i));
+        }
+    }
+
     public ArrayList<task> getList(){
         return tasks;
     }
