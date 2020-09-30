@@ -29,7 +29,7 @@ Got it, I`ve added the task:
 2 tasks are in the list  
 
 ### 2: Bye
-Exits the program.
+Saves and exits the program.
 #### Usage
 
 #### Keywords
@@ -58,7 +58,8 @@ Expected outcome:
 2[E][✗] birthday /tomorrow  
 
 ### 4:Save
-Saves all tasks
+Saves all tasks  
+Note: Saving is automatic when you use the `bye` command.
 #### Usage
 
 #### Keywords

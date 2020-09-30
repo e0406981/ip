@@ -86,6 +86,7 @@ public class Parser {
             tasks.printTasks();
         } else if (command.equals("bye")) {
             tasks.printBye();
+            storage.saveFile(tasks.getList());
         } else if (command.equals("save")) {
             storage.saveFile(tasks.getList());
         } else if (command.equals("help")) {
