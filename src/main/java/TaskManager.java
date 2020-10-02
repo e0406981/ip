@@ -55,7 +55,7 @@ public class TaskManager {
 
         if (taskNum > tasks.size() - 1 || taskNum < 0) {//if invalid number
             System.out.println("Invalid done input, number is out of range ):");
-        }else if(tasks.get(taskNum).getIsDone().equals("[✓]")){
+        }else if(tasks.get(taskNum).getIsDone().equals("[Y]")){
             System.out.println(("Task is already set to done!"));
         }else{
             tasks.get(taskNum).setDone(true);

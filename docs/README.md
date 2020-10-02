@@ -21,11 +21,11 @@ event birthday /tommorow
 Expected outcome:
 
 Got it, I`ve added the task:  
-[T][✗] read book  
+[T][X] read book  
 1 tasks are in the list  
 
 Got it, I`ve added the task:  
-[E][✗] birthday /tommorow  
+[E][X] birthday /tommorow  
 2 tasks are in the list  
 
 ### 2: Bye
@@ -54,8 +54,8 @@ Example of usage:
 `list`
 
 Expected outcome:  
-1[T][✗] read book  
-2[E][✗] birthday /tomorrow  
+1[T][X] read book  
+2[E][X] birthday /tomorrow  
 
 ### 4:Save
 Saves all tasks  
@@ -85,7 +85,7 @@ Example of usage:
 
 Expected outcome:    
 Nice, the following task has been marked as done :)  
-[E][✓] birthday /tomorrow  
+[E][Y] birthday /tomorrow  
 
 ### 6:Delete
 Deletes a task
@@ -115,7 +115,7 @@ Example of usage:
 
 Expected outcome:  
 1 tasks found:  
-1[T][✗] read book
+1[T][X] read book
 
 0 tasks found:
 

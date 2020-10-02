@@ -40,9 +40,9 @@ public class task {
      */
     public String getIsDone() {
         if (isDone) {
-            return "[✓]";
+            return "[Y]";
         } else {
-            return "[✗]";
+            return "[X]";
         }
     }
 
